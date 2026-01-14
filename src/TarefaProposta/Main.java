@@ -62,8 +62,6 @@ public class Main {
         } else {
             System.out.println("Representação em pré-ordem: ");
             arvore.preOrder(arvore.raiz);
-            System.out.println("\n\nEstrutura visual:");
-            arvore.imprimirArvore(arvore.raiz, "", false);
         }
     }
 }
