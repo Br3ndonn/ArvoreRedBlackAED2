@@ -39,16 +39,16 @@ public class Main {
             for (int i = 0; i < valores.size(); i++) {
                 int valor = valores.get(i);
                 System.out.println("--- Inserindo valor: " + valor + " (Inserção " + (i+1) + "/" + valores.size() + ") ---");
-
+                
                 NodoRB novoNodo = new NodoRB(valor, NodoRB.VERMELHO);
                 arvore.RBInsert(arvore, novoNodo);
-
+                
                 // Detectar qual caso ocorreu
                 int rotEsqAtual = arvore.rotacoesEsquerda;
                 int rotDirAtual = arvore.rotacoesDireita;
                 boolean houveRotacaoEsq = rotEsqAtual > rotEsqAnterior;
                 boolean houveRotacaoDir = rotDirAtual > rotDirAnterior;
-
+                
                 if (houveRotacaoEsq && houveRotacaoDir) {
                     System.out.println("  → Caso 2 detectado: Tio PRETO com rotação dupla");
                 } else if (houveRotacaoEsq || houveRotacaoDir) {
@@ -56,13 +56,13 @@ public class Main {
                 } else {
                     System.out.println("  → Caso 1 detectado: Recoloração (ou nó inicial)");
                 }
-
+                
                 rotEsqAnterior = rotEsqAtual;
                 rotDirAnterior = rotDirAtual;
-
+                
                 // Verificar integridade após inserção
                 boolean integridadeOk = VerificadorRB.verificarIntegridade(arvore);
-
+                
                 if (integridadeOk) {
                     System.out.println("✓ Integridade mantida após inserção de " + valor);
                     System.out.println("  - Altura preta: " + VerificadorRB.blackHeight(arvore));

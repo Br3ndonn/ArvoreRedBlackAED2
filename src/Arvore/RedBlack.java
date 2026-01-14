@@ -13,229 +13,243 @@ public class RedBlack {
         this.rotacoesDireita = 0;
     }
 
-    public void RBInsert(RedBlack var1, NodoRB var2) {
-        NodoRB var3 = var1.nil;
-        NodoRB var4 = var1.raiz;
+    public void RBInsert(RedBlack T, NodoRB z) {
+        NodoRB var3 = T.nil;
+        NodoRB var4 = T.raiz;
 
-        while(var4 != var1.nil) {
+        while(var4 != T.nil) {
             var3 = var4;
-            if (var2.valor < var4.valor) {
+            if (z.valor < var4.valor) {
                 var4 = var4.esquerda;
             } else {
                 var4 = var4.direita;
             }
         }
 
-        var2.pai = var3;
-        if (var3 == var1.nil) {
-            var1.raiz = var2;
-        } else if (var2.valor < var3.valor) {
-            var3.esquerda = var2;
+        z.pai = var3;
+        if (var3 == T.nil) {
+            T.raiz = z;
+        } else if (z.valor < var3.valor) {
+            var3.esquerda = z;
         } else {
-            var3.direita = var2;
+            var3.direita = z;
         }
 
-        var2.esquerda = var1.nil;
-        var2.direita = var1.nil;
-        var2.cor = true;
-        this.RBInsertFixup(var1, var2);
+        z.esquerda = T.nil;
+        z.direita = T.nil;
+        z.cor = true;
+        this.RBInsertFixup(T, z);
     }
 
-    public void RBInsertFixup(RedBlack var1, NodoRB var2) {
-        while(var2.pai.cor) {
-            if (var2.pai == var2.pai.pai.esquerda) {
-                NodoRB var4 = var2.pai.pai.direita;
-                if (var4.cor) {
-                    var2.pai.cor = false;
-                    var4.cor = false;
-                    var2.pai.pai.cor = true;
-                    var2 = var2.pai.pai;
+    public void RBInsertFixup(RedBlack T, NodoRB z) {
+        while(z.pai.cor) {
+            if (z.pai == z.pai.pai.esquerda) {
+                NodoRB y = z.pai.pai.direita;
+                if (y.cor) {
+                    z.pai.cor = false;
+                    y.cor = false;
+                    z.pai.pai.cor = true;
+                    z = z.pai.pai;
                 } else {
-                    if (var2 == var2.pai.direita) {
-                        var2 = var2.pai;
-                        this.rotacaoEsquerda(var1, var2);
+                    if (z == z.pai.direita) {
+                        z = z.pai;
+                        this.rotacaoEsquerda(T, z);
                     }
 
-                    var2.pai.cor = false;
-                    var2.pai.pai.cor = true;
-                    this.rotacaoDireita(var1, var2.pai.pai);
+                    z.pai.cor = false;
+                    z.pai.pai.cor = true;
+                    this.rotacaoDireita(T, z.pai.pai);
                 }
             } else {
-                NodoRB var3 = var2.pai.pai.esquerda;
+                NodoRB var3 = z.pai.pai.esquerda;
                 if (var3.cor) {
-                    var2.pai.cor = false;
+                    z.pai.cor = false;
                     var3.cor = false;
-                    var2.pai.pai.cor = true;
-                    var2 = var2.pai.pai;
+                    z.pai.pai.cor = true;
+                    z = z.pai.pai;
                 } else {
-                    if (var2 == var2.pai.esquerda) {
-                        var2 = var2.pai;
-                        this.rotacaoDireita(var1, var2);
+                    if (z == z.pai.esquerda) {
+                        z = z.pai;
+                        this.rotacaoDireita(T, z);
                     }
 
-                    var2.pai.cor = false;
-                    var2.pai.pai.cor = true;
-                    this.rotacaoEsquerda(var1, var2.pai.pai);
+                    z.pai.cor = false;
+                    z.pai.pai.cor = true;
+                    this.rotacaoEsquerda(T, z.pai.pai);
                 }
             }
         }
 
-        var1.raiz.cor = false;
+        T.raiz.cor = false;
     }
 
-    public void rotacaoEsquerda(RedBlack var1, NodoRB var2) {
+    public void rotacaoEsquerda(RedBlack T, NodoRB z) {
         ++this.rotacoesEsquerda;
-        NodoRB var3 = var2.direita;
-        var2.direita = var3.esquerda;
-        if (var3.esquerda != var1.nil) {
-            var3.esquerda.pai = var2;
+        NodoRB var3 = z.direita;
+        z.direita = var3.esquerda;
+        if (var3.esquerda != T.nil) {
+            var3.esquerda.pai = z;
         }
 
-        var3.pai = var2.pai;
-        if (var2.pai == var1.nil) {
-            var1.raiz = var3;
-        } else if (var2 == var2.pai.esquerda) {
-            var2.pai.esquerda = var3;
+        var3.pai = z.pai;
+        if (z.pai == T.nil) {
+            T.raiz = var3;
+        } else if (z == z.pai.esquerda) {
+            z.pai.esquerda = var3;
         } else {
-            var2.pai.direita = var3;
+            z.pai.direita = var3;
         }
 
-        var3.esquerda = var2;
-        var2.pai = var3;
+        var3.esquerda = z;
+        z.pai = var3;
     }
 
-    public void rotacaoDireita(RedBlack var1, NodoRB var2) {
+    public void rotacaoDireita(RedBlack T, NodoRB z) {
         ++this.rotacoesDireita;
-        NodoRB var3 = var2.esquerda;
-        var2.esquerda = var3.direita;
-        if (var3.direita != var1.nil) {
-            var3.direita.pai = var2;
+        NodoRB var3 = z.esquerda;
+        z.esquerda = var3.direita;
+        if (var3.direita != T.nil) {
+            var3.direita.pai = z;
         }
 
-        var3.pai = var2.pai;
-        if (var2.pai == var1.nil) {
-            var1.raiz = var3;
-        } else if (var2 == var2.pai.direita) {
-            var2.pai.direita = var3;
+        var3.pai = z.pai;
+        if (z.pai == T.nil) {
+            T.raiz = var3;
+        } else if (z == z.pai.direita) {
+            z.pai.direita = var3;
         } else {
-            var2.pai.esquerda = var3;
+            z.pai.esquerda = var3;
         }
 
-        var3.direita = var2;
-        var2.pai = var3;
+        var3.direita = z;
+        z.pai = var3;
     }
 
-    public void RBTransplant(RedBlack var1, NodoRB var2, NodoRB var3) {
-        if (var2.pai == var1.nil) {
-            var1.raiz = var3;
-        } else if (var2 == var2.pai.esquerda) {
-            var2.pai.esquerda = var3;
+    public void RBTransplant(RedBlack t, NodoRB u, NodoRB v) {
+        if (u.pai == t.nil) {
+            t.raiz = v;
+        } else if (u == u.pai.esquerda) {
+            u.pai.esquerda = v;
         } else {
-            var2.pai.direita = var3;
+            u.pai.direita = v;
         }
 
-        var3.pai = var2.pai;
+        v.pai = u.pai;
     }
 
-    public void RBRemove(RedBlack var1, NodoRB var2) {
-        boolean var4 = var2.cor;
+    public void RBRemove(RedBlack T, NodoRB z) {
+        boolean var4 = z.cor;
         NodoRB var5;
-        if (var2.esquerda == var1.nil) {
-            var5 = var2.direita;
-            this.RBTransplant(var1, var2, var2.direita);
-        } else if (var2.direita == var1.nil) {
-            var5 = var2.esquerda;
-            this.RBTransplant(var1, var2, var2.esquerda);
+        if (z.esquerda == T.nil) {
+            var5 = z.direita;
+            this.RBTransplant(T, z, z.direita);
+        } else if (z.direita == T.nil) {
+            var5 = z.esquerda;
+            this.RBTransplant(T, z, z.esquerda);
         } else {
-            NodoRB var3 = this.treeMinimum(var1, var2.direita);
+            NodoRB var3 = this.treeMinimum(T, z.direita);
             var4 = var3.cor;
             var5 = var3.direita;
-            if (var3.pai == var2) {
+            if (var3.pai == z) {
                 var5.pai = var3;
             } else {
-                this.RBTransplant(var1, var3, var3.direita);
-                var3.direita = var2.direita;
+                this.RBTransplant(T, var3, var3.direita);
+                var3.direita = z.direita;
                 var3.direita.pai = var3;
             }
 
-            this.RBTransplant(var1, var2, var3);
-            var3.esquerda = var2.esquerda;
+            this.RBTransplant(T, z, var3);
+            var3.esquerda = z.esquerda;
             var3.esquerda.pai = var3;
-            var3.cor = var2.cor;
+            var3.cor = z.cor;
         }
 
         if (!var4) {
-            this.RBRemoveFixup(var1, var5);
+            this.RBRemoveFixup(T, var5);
         }
 
     }
 
-    public void RBRemoveFixup(RedBlack var1, NodoRB var2) {
-        while(var2 != var1.raiz && !var2.cor) {
-            if (var2 == var2.pai.esquerda) {
-                NodoRB var4 = var2.pai.direita;
+    public void RBRemoveFixup(RedBlack T, NodoRB x) {
+        while(x != T.raiz && !x.cor) {
+            if (x == x.pai.esquerda) {
+                NodoRB var4 = x.pai.direita;
                 if (var4.cor) {
                     var4.cor = false;
-                    var2.pai.cor = true;
-                    this.rotacaoEsquerda(var1, var2.pai);
-                    var4 = var2.pai.direita;
+                    x.pai.cor = true;
+                    this.rotacaoEsquerda(T, x.pai);
+                    var4 = x.pai.direita;
                 }
 
                 if (!var4.esquerda.cor && !var4.direita.cor) {
                     var4.cor = true;
-                    var2 = var2.pai;
+                    x = x.pai;
                 } else {
                     if (!var4.direita.cor) {
                         var4.esquerda.cor = false;
                         var4.cor = true;
-                        this.rotacaoDireita(var1, var4);
-                        var4 = var2.pai.direita;
+                        this.rotacaoDireita(T, var4);
+                        var4 = x.pai.direita;
                     }
 
-                    var4.cor = var2.pai.cor;
-                    var2.pai.cor = false;
+                    var4.cor = x.pai.cor;
+                    x.pai.cor = false;
                     var4.direita.cor = false;
-                    this.rotacaoEsquerda(var1, var2.pai);
-                    var2 = var1.raiz;
+                    this.rotacaoEsquerda(T, x.pai);
+                    x = T.raiz;
                 }
             } else {
-                NodoRB var3 = var2.pai.esquerda;
+                NodoRB var3 = x.pai.esquerda;
                 if (var3.cor) {
                     var3.cor = false;
-                    var2.pai.cor = true;
-                    this.rotacaoDireita(var1, var2.pai);
-                    var3 = var2.pai.esquerda;
+                    x.pai.cor = true;
+                    this.rotacaoDireita(T, x.pai);
+                    var3 = x.pai.esquerda;
                 }
 
                 if (!var3.direita.cor && !var3.esquerda.cor) {
                     var3.cor = true;
-                    var2 = var2.pai;
+                    x = x.pai;
                 } else {
                     if (!var3.esquerda.cor) {
                         var3.direita.cor = false;
                         var3.cor = true;
-                        this.rotacaoEsquerda(var1, var3);
-                        var3 = var2.pai.esquerda;
+                        this.rotacaoEsquerda(T, var3);
+                        var3 = x.pai.esquerda;
                     }
 
-                    var3.cor = var2.pai.cor;
-                    var2.pai.cor = false;
+                    var3.cor = x.pai.cor;
+                    x.pai.cor = false;
                     var3.esquerda.cor = false;
-                    this.rotacaoDireita(var1, var2.pai);
-                    var2 = var1.raiz;
+                    this.rotacaoDireita(T, x.pai);
+                    x = T.raiz;
                 }
             }
         }
 
-        var2.cor = false;
+        x.cor = false;
     }
 
-    public NodoRB treeMinimum(RedBlack var1, NodoRB var2) {
-        while(var2.esquerda != var1.nil) {
-            var2 = var2.esquerda;
+    public NodoRB treeMinimum(RedBlack T, NodoRB z) {
+        while(z.esquerda != T.nil) {
+            z = z.esquerda;
         }
 
-        return var2;
+        return z;
+    }
+
+    public NodoRB buscarNodo(RedBlack T, int x) {
+        NodoRB var3 = T.raiz;
+
+        while (var3 != T.nil && x != var3.valor) {
+            if (x < var3.valor) {
+                var3 = var3.esquerda;
+            } else {
+                var3 = var3.direita;
+            }
+        }
+
+        return var3 != T.nil ? var3 : null;
     }
 
     public void imprimirArvore(NodoRB var1, String var2, boolean var3) {
